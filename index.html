@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOMSOFT Smart Factory — Suivi des paramètres machine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation par onglets en CSS pur (aucun JavaScript) -->
+<input type="radio" name="ecran" id="ecran-machines" class="nav-radio" checked>
+<input type="radio" name="ecran" id="ecran-criteres" class="nav-radio">
+<input type="radio" name="ecran" id="ecran-visualisation" class="nav-radio">
+<input type="radio" name="ecran" id="ecran-notifications" class="nav-radio">
+
+<!-- ===== Barre supérieure ===== -->
+<header class="topbar">
+  <div class="brand">MOMSOFT <span>Smart Factory</span></div>
+  <div class="topbar-right">
+    <span class="site">🏭 Sfax</span>
+    <span class="icon-btn">🌐</span>
+    <span class="icon-btn bell">🔔<i class="dot"></i></span>
+    <span class="avatar">JD</span>
+    <span class="icon-btn">💬</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ===== Menu latéral ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">MOMSOFT <span>Smart Factory</span></div>
+
+    <p class="menu-title">Contrôle</p>
+    <a class="menu-item disabled">≋ Contrôle atmosphérique</a>
+    <a class="menu-item disabled">☑ Contrôle qualité</a>
+
+    <p class="menu-title">Suivi paramètres machine</p>
+    <label for="ecran-machines" class="menu-item tab-machines">⚙ Paramétrage machines</label>
+    <label for="ecran-criteres" class="menu-item tab-criteres"> Critères de contrôle</label>
+    <label for="ecran-visualisation" class="menu-item tab-visualisation"> Visualisation des données</label>
+    <label for="ecran-notifications" class="menu-item tab-notifications"> Notifications</label>
+
+    <p class="menu-title">Production</p>
+    <a class="menu-item disabled">🗎 Ordres de fabrication</a>
+    <a class="menu-item disabled">🗓 Planning des opérations</a>
+    <a class="menu-item disabled">🗃 Historique des lots</a>
+
+    <button class="collapse-btn">‹</button>
+  </aside>
+
+  <!-- ===== Contenu ===== -->
+  <main class="content">
+
+    <!-- ================= ÉCRAN 1 : PARAMÉTRAGE MACHINES ================= -->
+    <section class="ecran" id="vue-machines">
+      <p class="breadcrumb">Suivi paramètres machine &nbsp;›&nbsp; Paramétrage machines</p>
+      <div class="page-head">
+        <div>
+          <h1>Paramétrage des machines</h1>
+          <p class="subtitle">Connexion des équipements et configuration du protocole de communication</p>
+        </div>
+        <button class="btn-primary">+ Ajouter une machine</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><p>Machines paramétrées</p><strong>6</strong></div>
+        <div class="kpi"><p>Connectées</p><strong class="green">5</strong></div>
+        <div class="kpi"><p>Déconnectées</p><strong class="red">1</strong></div>
+        <div class="kpi"><p>Protocoles utilisés</p><strong>3</strong></div>
+      </div>
+
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="search">🔍 <input type="text" placeholder="Rechercher par code, nom, protocole..."></div>
+          <button class="btn-light">▽ Filtres</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Code machine</th><th>Nom machine</th><th>Atelier</th>
+              <th>Protocole</th><th>Adresse / Point d'accès</th><th>Fréquence lecture</th>
+              <th>Connexion</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="code">MCH-FET-2090-01</td><td>Presse biscuits Fette 2090</td><td>Atelier production solides</td>
+              <td><span class="proto mqtt">MQTT</span></td><td class="mono">mqtt://10.10.2.14:1883 / usine/l1/presse</td><td>5 s</td>
+              <td><span class="badge ok">● Connectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-GEA-MIX-01</td><td>Mélangeur GEA PharmaConnect</td><td>Atelier production solides</td>
+              <td><span class="proto opcua">OPC UA</span></td><td class="mono">opc.tcp://10.10.2.21:4840</td><td>2 s</td>
+              <td><span class="badge ok">● Connectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-IMA-C80-01</td><td>Mise en sachet IMA C80</td><td>Atelier conditionnement</td>
+              <td><span class="proto modbus">Modbus TCP</span></td><td class="mono">10.10.3.05:502 — registre 4001</td><td>10 s</td>
+              <td><span class="badge ok">● Connectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-UHLMANN-01</td><td>Etuyeuse Uhlmann C2100</td><td>Atelier conditionnement</td>
+              <td><span class="proto opcua">OPC UA</span></td><td class="mono">opc.tcp://10.10.3.12:4840</td><td>5 s</td>
+              <td><span class="badge warn">● Déconnectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-BAL-MET-01</td><td>Balance Mettler Toledo XPE</td><td>Atelier production solides</td>
+              <td><span class="proto mqtt">MQTT</span></td><td class="mono">mqtt://10.10.2.14:1883 / usine/l1/pesage</td><td>1 s</td>
+              <td><span class="badge ok">● Connectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-KOR-01</td><td>Encartonneuse Korber Medipak</td><td>Atelier conditionnement</td>
+              <td><span class="proto modbus">Modbus TCP</span></td><td class="mono">10.10.3.08:502 — registre 4010</td><td>10 s</td>
+              <td><span class="badge ok">● Connectée</span></td>
+              <td class="actions"><button class="act view">👁</button><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-foot"><span>Total <b class="pill">6</b> machines</span><span>Éléments par page&nbsp; <select><option>10</option></select> &nbsp;‹ ›</span></div>
+      </div>
+    </section>
+
+    <!-- ================= ÉCRAN 2 : CRITÈRES DE CONTRÔLE ================= -->
+    <section class="ecran" id="vue-criteres">
+      <p class="breadcrumb">Suivi paramètres machine &nbsp;›&nbsp; Critères de contrôle</p>
+      <div class="page-head">
+        <div>
+          <h1>Critères de contrôle machine</h1>
+          <p class="subtitle">Seuils et tolérances appliqués à chaque paramètre surveillé</p>
+        </div>
+        <button class="btn-primary">+ Ajouter un critère</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><p>Paramètres surveillés</p><strong>8</strong></div>
+        <div class="kpi"><p>Critères actifs</p><strong class="green">7</strong></div>
+        <div class="kpi"><p>Critères inactifs</p><strong>1</strong></div>
+        <div class="kpi"><p>Machines couvertes</p><strong>6</strong></div>
+      </div>
+
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="search">🔍 <input type="text" placeholder="Rechercher un paramètre, une machine..."></div>
+          <select class="select"><option>Tous les ateliers</option></select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Machine</th><th>Paramètre</th><th>Unité</th>
+              <th>Seuil min</th><th>Valeur cible</th><th>Seuil max</th><th>Tolérance</th>
+              <th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="code">MCH-FET-2090-01</td><td><b>Température four</b></td><td>°C</td>
+              <td>175</td><td class="target">180</td><td>185</td><td>± 2 %</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-FET-2090-01</td><td><b>Vitesse presse</b></td><td>trs/min</td>
+              <td>55</td><td class="target">60</td><td>65</td><td>± 5 %</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-GEA-MIX-01</td><td><b>Température moteur</b></td><td>°C</td>
+              <td>—</td><td class="target">65</td><td>80</td><td>± 3 %</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-GEA-MIX-01</td><td><b>Vibration cuve</b></td><td>mm/s</td>
+              <td>—</td><td class="target">2,5</td><td>4,5</td><td>± 0,3</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-IMA-C80-01</td><td><b>Température scellage</b></td><td>°C</td>
+              <td>138</td><td class="target">142</td><td>146</td><td>± 1 %</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-BAL-MET-01</td><td><b>Dérive pesée</b></td><td>g</td>
+              <td>-0,05</td><td class="target">0</td><td>0,05</td><td>± 0,01</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-UHLMANN-01</td><td><b>Pression air comprimé</b></td><td>bar</td>
+              <td>5,5</td><td class="target">6,0</td><td>6,5</td><td>± 2 %</td>
+              <td><span class="badge ok">Actif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-KOR-01</td><td><b>Cadence encartonnage</b></td><td>étuis/min</td>
+              <td>110</td><td class="target">120</td><td>130</td><td>± 5 %</td>
+              <td><span class="badge off">Inactif</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-foot"><span>Total <b class="pill">8</b> critères</span><span>Éléments par page&nbsp; <select><option>10</option></select> &nbsp;‹ ›</span></div>
+      </div>
+    </section>
+
+    <!-- ================= ÉCRAN 3 : VISUALISATION ================= -->
+    <section class="ecran" id="vue-visualisation">
+      <p class="breadcrumb">Suivi paramètres machine &nbsp;›&nbsp; Visualisation des données</p>
+      <div class="page-head">
+        <div>
+          <h1>Visualisation des données machine</h1>
+          <p class="subtitle">Dernières mesures collectées et conformité par rapport aux critères</p>
+        </div>
+      </div>
+
+      <div class="card filters">
+        <div class="search">🔍 <input type="text" placeholder="Rechercher une machine, un paramètre..."></div>
+        <input class="select" type="text" value="📅 04/03/2026">
+        <select class="select"><option>Tous les ateliers</option></select>
+        <select class="select"><option>Tous les statuts</option></select>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><p>Mesures conformes</p><strong class="green">5</strong></div>
+        <div class="kpi"><p>En alerte</p><strong class="orange">2</strong></div>
+        <div class="kpi"><p>Hors tolérance</p><strong class="red">1</strong></div>
+        <div class="kpi"><p>Mesures / heure</p><strong>2 340</strong></div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h2>Température four — MCH-FET-2090-01</h2>
+          <span class="legend"><i class="sq ok"></i> Conforme <i class="sq warnc"></i> Alerte <i class="sq err"></i> Hors tolérance</span>
+        </div>
+        <div class="chart">
+          <div class="bar ok" style="--h:72%"><span>179,4</span><em>13:30</em></div>
+          <div class="bar ok" style="--h:75%"><span>180,1</span><em>13:45</em></div>
+          <div class="bar ok" style="--h:74%"><span>179,8</span><em>14:00</em></div>
+          <div class="bar warnc" style="--h:86%"><span>183,6</span><em>14:15</em></div>
+          <div class="bar err" style="--h:97%"><span>187,2</span><em>14:30</em></div>
+          <div class="bar warnc" style="--h:88%"><span>184,1</span><em>14:45</em></div>
+          <div class="bar ok" style="--h:76%"><span>180,4</span><em>15:00</em></div>
+          <div class="bar ok" style="--h:73%"><span>179,6</span><em>15:15</em></div>
+          <div class="seuil max"><b>Seuil max 185 °C</b></div>
+          <div class="seuil min"><b>Seuil min 175 °C</b></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Dernières mesures</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Machine</th><th>Paramètre</th><th>Valeur mesurée</th><th>Plage attendue</th>
+              <th>Horodatage</th><th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="code">MCH-FET-2090-01</td><td>Température four</td><td class="target">187,2 °C</td><td>175 – 185 °C</td>
+              <td>04/03/2026 14:30</td><td><span class="badge err">Hors tolérance</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-GEA-MIX-01</td><td>Vibration cuve</td><td class="target">4,1 mm/s</td><td>≤ 4,5 mm/s</td>
+              <td>04/03/2026 14:28</td><td><span class="badge warn">Alerte</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-IMA-C80-01</td><td>Température scellage</td><td class="target">142,3 °C</td><td>138 – 146 °C</td>
+              <td>04/03/2026 14:27</td><td><span class="badge ok">Conforme</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-BAL-MET-01</td><td>Dérive pesée</td><td class="target">+0,01 g</td><td>± 0,05 g</td>
+              <td>04/03/2026 14:26</td><td><span class="badge ok">Conforme</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-GEA-MIX-01</td><td>Température moteur</td><td class="target">76,8 °C</td><td>≤ 80 °C</td>
+              <td>04/03/2026 14:25</td><td><span class="badge warn">Alerte</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-FET-2090-01</td><td>Vitesse presse</td><td class="target">60,2 trs/min</td><td>55 – 65 trs/min</td>
+              <td>04/03/2026 14:24</td><td><span class="badge ok">Conforme</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-UHLMANN-01</td><td>Pression air comprimé</td><td class="target">6,1 bar</td><td>5,5 – 6,5 bar</td>
+              <td>04/03/2026 14:22</td><td><span class="badge ok">Conforme</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+            <tr>
+              <td class="code">MCH-KOR-01</td><td>Cadence encartonnage</td><td class="target">121 étuis/min</td><td>110 – 130 étuis/min</td>
+              <td>04/03/2026 14:20</td><td><span class="badge ok">Conforme</span></td>
+              <td><button class="btn-light small">👁 Voir</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= ÉCRAN 4 : NOTIFICATIONS ================= -->
+    <section class="ecran" id="vue-notifications">
+      <p class="breadcrumb">Suivi paramètres machine &nbsp;›&nbsp; Notifications</p>
+      <div class="page-head">
+        <div>
+          <h1>Paramétrage des notifications</h1>
+          <p class="subtitle">Règles d'alerte déclenchées lorsqu'un critère de contrôle est dépassé</p>
+        </div>
+        <button class="btn-primary">+ Ajouter une règle</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><p>Règles actives</p><strong class="green">4</strong></div>
+        <div class="kpi"><p>Notifications (24 h)</p><strong>9</strong></div>
+        <div class="kpi"><p>Non lues</p><strong class="orange">3</strong></div>
+        <div class="kpi"><p>Canaux configurés</p><strong>3</strong></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Règles de notification</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Machine / Paramètre</th><th>Condition de déclenchement</th><th>Canal</th>
+              <th>Destinataire</th><th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="code">MCH-FET-2090-01</span> — Température four</td>
+              <td><span class="badge err">Hors tolérance</span></td>
+              <td><span class="canal email">✉ Email</span></td>
+              <td>resp.production@usine.tn</td>
+              <td><span class="badge ok">Active</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td><span class="code">MCH-GEA-MIX-01</span> — Vibration cuve</td>
+              <td><span class="badge warn">Alerte</span></td>
+              <td><span class="canal app">▣ Application</span></td>
+              <td>Équipe maintenance</td>
+              <td><span class="badge ok">Active</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td><span class="code">MCH-IMA-C80-01</span> — Température scellage</td>
+              <td><span class="badge err">Hors tolérance</span></td>
+              <td><span class="canal sms">📱 SMS</span></td>
+              <td>+216 22 000 000</td>
+              <td><span class="badge ok">Active</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td><span class="code">MCH-BAL-MET-01</span> — Dérive pesée</td>
+              <td><span class="badge err">Hors tolérance</span></td>
+              <td><span class="canal email">✉ Email</span></td>
+              <td>qualite@usine.tn</td>
+              <td><span class="badge ok">Active</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+            <tr>
+              <td><span class="code">MCH-KOR-01</span> — Cadence encartonnage</td>
+              <td><span class="badge warn">Alerte</span></td>
+              <td><span class="canal app">▣ Application</span></td>
+              <td>Chef d'atelier conditionnement</td>
+              <td><span class="badge off">Inactive</span></td>
+              <td class="actions"><button class="act edit">✎</button><button class="act del">🗑</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Historique des notifications</h2>
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Machine</th><th>Message</th><th>Canal</th><th>Statut</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>04/03/2026 14:30</td><td class="code">MCH-FET-2090-01</td>
+              <td>Température four à 187,2 °C — seuil max 185 °C dépassé</td>
+              <td><span class="canal email">✉ Email</span></td><td><span class="badge warn">Non lue</span></td>
+            </tr>
+            <tr>
+              <td>04/03/2026 14:28</td><td class="code">MCH-GEA-MIX-01</td>
+              <td>Vibration cuve à 4,1 mm/s — approche du seuil max 4,5 mm/s</td>
+              <td><span class="canal app">▣ Application</span></td><td><span class="badge warn">Non lue</span></td>
+            </tr>
+            <tr>
+              <td>04/03/2026 13:12</td><td class="code">MCH-GEA-MIX-01</td>
+              <td>Température moteur à 76,8 °C — approche du seuil max 80 °C</td>
+              <td><span class="canal app">▣ Application</span></td><td><span class="badge warn">Non lue</span></td>
+            </tr>
+            <tr>
+              <td>04/03/2026 11:47</td><td class="code">MCH-IMA-C80-01</td>
+              <td>Température scellage revenue dans la plage 138 – 146 °C</td>
+              <td><span class="canal sms">📱 SMS</span></td><td><span class="badge ok">Lue</span></td>
+            </tr>
+            <tr>
+              <td>04/03/2026 09:05</td><td class="code">MCH-BAL-MET-01</td>
+              <td>Dérive pesée à +0,06 g — tolérance ± 0,05 g dépassée</td>
+              <td><span class="canal email">✉ Email</span></td><td><span class="badge ok">Lue</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
