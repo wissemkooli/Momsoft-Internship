@@ -1,0 +1,14 @@
+{
+  "name": "momsoft-smart-factory",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MOMSOFT machine monitoring frontend",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "test": "node --test tests/frontend.cjs",
+    "check": "node --check app.js && node --check data.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.0"
+  }
+}
