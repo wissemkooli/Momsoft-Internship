@@ -15,10 +15,12 @@
   <img src="https://img.shields.io/badge/Projet-Stage_MOMsoft-004A5A?style=flat-square" alt="Projet de stage chez MOMsoft">
   <img src="https://img.shields.io/badge/Frontend-HTML_%C2%B7_CSS_%C2%B7_JavaScript-142C3C?style=flat-square" alt="Frontend HTML, CSS et JavaScript">
   <img src="https://img.shields.io/badge/Interface-Fran%C3%A7ais-FF8500?style=flat-square" alt="Interface en français">
+  <a href="https://momsoft-internship.pages.dev/"><img src="https://img.shields.io/badge/D%C3%A9mo-En_ligne-217965?style=flat-square&logo=cloudflare&logoColor=white" alt="Démo en ligne sur Cloudflare"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/Code-Licence_MIT-217965?style=flat-square" alt="Code sous licence MIT"></a>
 </p>
 
 <p align="center">
+  <a href="https://momsoft-internship.pages.dev/"><strong>Voir la démo</strong></a> &nbsp;·&nbsp;
   <a href="#aperçu">Aperçu</a> &nbsp;·&nbsp;
   <a href="#le-projet">Le projet</a> &nbsp;·&nbsp;
   <a href="#démarrage-rapide">Démarrage rapide</a> &nbsp;·&nbsp;
@@ -31,6 +33,10 @@
 ## Aperçu
 
 Un tableau de bord dédié au suivi des équipements : un parc machines lisible, des statuts explicites et une configuration accessible depuis un même espace.
+
+<p align="center">
+  <a href="https://momsoft-internship.pages.dev/"><strong>→ Ouvrir l’application en ligne</strong></a>
+</p>
 
 [![Vue du parc machines : indicateurs, état des connexions, recherche et configuration des équipements](docs/images/machines.png)](docs/images/machines.png)
 
@@ -115,6 +121,32 @@ Le serveur de développement utilise le port 8000 par défaut. Un autre port peu
 
 </details>
 
+## Déploiement Cloudflare
+
+La version publique est disponible à l’adresse **[momsoft-internship.pages.dev](https://momsoft-internship.pages.dev/)**. Chaque mise à jour de la branche <code>main</code> déclenche un nouveau déploiement depuis GitHub.
+
+Le dépôt contient une configuration prête pour **Workers Static Assets**. Le script de préparation copie uniquement les cinq fichiers frontend dans <code>public/</code>. Les dépendances, tests, documents et fichiers Git ne sont pas publiés comme assets du site.
+
+Dans les paramètres de build du Worker <code>momsoft-internship</code> :
+
+| Paramètre | Valeur |
+| :--- | :--- |
+| Branche de production | <code>main</code> |
+| Répertoire racine | Racine du dépôt |
+| Commande de build | Laisser vide |
+| Commande de déploiement | <code>npx wrangler deploy</code> |
+
+Wrangler utilise <code>wrangler.jsonc</code> et exécute automatiquement <code>npm run build</code> avant le déploiement. Le dossier d’assets est <strong><code>./public</code></strong>, jamais la racine du dépôt : cela évite notamment de publier <code>node_modules</code>.
+
+Après un déploiement réussi, le lien public est affiché dans Cloudflare, sous <strong>Domains</strong>. Un domaine personnalisé peut être associé au même projet.
+
+Pour vérifier la préparation des fichiers en local, sans installation de dépendances :
+
+~~~sh
+npm run build
+npm run test:build
+~~~
+
 ## Fonctionnalités
 
 | Espace | Ce que vous pouvez faire |
@@ -150,8 +182,10 @@ Momsoft-Internship/
 ├── data.js                    Données métier de démonstration
 ├── favicon.svg                Icône de l’application
 ├── scripts/
+│   ├── build.cjs              Préparation des cinq assets publics
 │   └── serve.cjs              Serveur d’aperçu local
 ├── tests/
+│   ├── build.cjs              Vérification du paquet de déploiement
 │   └── frontend.cjs           Tests navigateur Playwright
 ├── docs/
 │   └── images/                Logo et captures de l’interface
@@ -159,6 +193,7 @@ Momsoft-Internship/
 ├── Diagramme.png              Modèle relationnel d’origine
 ├── Document-technique-Suivi-parametres-machine.docx
 ├── package.json
+├── wrangler.jsonc             Configuration Cloudflare Workers
 ├── README.md
 └── LICENSE
 ~~~
@@ -222,7 +257,7 @@ npm run check
 npm test
 ~~~
 
-La suite comporte **10 tests navigateur** couvrant la recherche, les filtres, les formulaires, la validation des seuils, les suppressions en cascade, les graphiques, les exports CSV, la sauvegarde, la synchronisation entre onglets et la navigation mobile. Les tests utilisent un serveur local sur un port libre ; aucun service externe n’est nécessaire pendant leur exécution.
+La suite comporte **10 tests navigateur** couvrant la recherche, les filtres, les formulaires, la validation des seuils, les suppressions en cascade, les graphiques, les exports CSV, la sauvegarde, la synchronisation entre onglets et la navigation mobile, ainsi que **2 tests de déploiement** vérifiant le contenu de <code>public/</code> et la configuration Wrangler. Les tests navigateur utilisent un serveur local sur un port libre ; aucun service externe n’est nécessaire pendant leur exécution.
 
 Pour utiliser un Chromium déjà installé :
 

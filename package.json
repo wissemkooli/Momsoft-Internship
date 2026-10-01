@@ -5,8 +5,10 @@
   "description": "MOMSOFT machine monitoring frontend",
   "scripts": {
     "start": "node scripts/serve.cjs",
-    "test": "node --test tests/frontend.cjs",
-    "check": "node --check app.js && node --check data.js"
+    "build": "node scripts/build.cjs",
+    "test": "node --test tests/build.cjs tests/frontend.cjs",
+    "test:build": "node --test tests/build.cjs",
+    "check": "node --check app.js && node --check data.js && node --check scripts/build.cjs"
   },
   "devDependencies": {
     "playwright": "^1.58.0"
